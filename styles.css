@@ -1,0 +1,244 @@
+
+body {
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg,#f6f8fa 0%, #eef2f7 100%);
+  margin: 0;
+  padding: 24px;
+  color: #222;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  background: #fff;
+  padding: 22px;
+  border-radius: 52px;
+  box-shadow: 0 8px 30px rgba(11,20,40,0.06);
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: -50px; /* opcional, para dar espaçamento abaixo */
+}
+
+
+h1 {
+  text-align: center;
+  color: #5f819e;
+  margin: 0 0 28px;
+  font-size: 24px;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+  justify-content: space-between;
+}
+
+.filtros .row {
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+label {
+  font-weight: 600;
+  font-size: 13px;
+  color: #444;
+}
+
+input[type="text"], select, input[type="file"] {
+  padding: 12px 10px;
+  border-radius: 8px;
+  border: 1px solid #d6dbe6;
+  font-size: 14px;
+}
+
+input[type="file"] {
+  padding: 6px;
+}
+
+button {
+  background: linear-gradient(135deg,#0078D7,#005bb5);
+  color: #fff;
+  border: none;
+  padding: 12px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform .08s ease, box-shadow .08s;
+}
+
+button:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(3,27,80,0.12); }
+
+.blocosAulas {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+/* card de aula */
+.aulaCard {
+  border-radius: 10px;
+  padding: 12px;
+  background: #fafbfd;
+  border: 1px solid #eef4fb;
+  box-shadow: 0 2px 8px rgba(13,40,80,0.03);
+}
+
+/* header aula */
+.aulaHeader {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.aulaTitle {
+  font-weight:700;
+  color:#0b4e8a;
+  font-size:16px;
+}
+
+/* lista de receitas (compacta) */
+.receitasList {
+  margin-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+/* card receita */
+.receitaRow {
+  background: #fff;
+  border-radius:8px;
+  padding:10px;
+  border:1px solid #eef2f7;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+}
+
+.receitaMain {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  flex:1;
+}
+
+.receitaName {
+  font-weight:700;
+  color:#0b3b66;
+}
+
+.insumosPreview {
+  font-size:13px;
+  color:#3b3b3b;
+}
+
+.controls {
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+/* badge tipo - colorido */
+.badge {
+  padding:6px 8px;
+  border-radius:8px;
+  font-weight:700;
+  font-size:12px;
+  color:white;
+  text-transform:uppercase;
+}
+
+.badge.mercearia { background:#e9c68e; }
+.badge.hortifruti { background:#3fb77f; }
+.badge.frios { background:#4aa3e0; }
+.badge.proteina { background:#e85b8d; }
+.badge.unknown { background:#8b8f99; }
+
+.hidden { display:none; }
+
+/* lista completa quando expandir */
+.insumosFull {
+  margin-top:8px;
+  padding-top:8px;
+  border-top:1px dashed #e6edf6;
+  font-size:13px;
+  color:#333;
+}
+
+/* resumo */
+.resumo {
+  margin-top:14px;
+  padding:12px;
+  background:#fff;
+  border-radius:10px;
+  border:1px solid #e9f0fb;
+}
+
+/* tabela simples para resumo */
+.resumo table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+.resumo th, .resumo td {
+  padding:8px 6px;
+  text-align:left;
+  border-bottom:1px solid #f0f3f8;
+}
+
+.actions {
+  margin-top:12px;
+  display:flex;
+  gap:8px;
+  justify-content:center;
+}
+
+ /* ----------------- ajustes extras ----------------- */
+
+/* botões secundários (como "Fechar Resumo") */
+button.secundario {
+  background: #e6ebf5;
+  color: #0b3b66;
+  font-weight: 600;
+}
+button.secundario:hover {
+  background: #d4d9e4;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* clarear inputs e selects */
+input[type="text"], select, input[type="file"] {
+  background: #fdfdfd;
+  border: 1px solid #ccd4e0;
+}
+
+/* barra de busca mais destacada */
+#searchInput {
+  flex: 1;
+  min-width: 220px;
+  border-radius: 20px;
+  padding: 8px 14px;
+  border: 1px solid #c8d2e4;
+  background: #fff;
+  transition: box-shadow .15s;
+}
+#searchInput:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,120,215,0.25);
+}
+
+/* alinhar melhor os botões da barra de filtros */
+.filtros .row button {
+  min-width: 100px;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  
+  <title>FIPC - Plano de Aulas (Confeiteiro)</title>
+
+  <!-- Seu CSS -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- SheetJS para leitura de Excel no cliente -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+
+  <!-- Script principal -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    
+<div class="logo">
+  <img src="filtro.jng2.png" width="300" height="300">
+  
+</div>
+    
+
+    <div class="filtros">
+      <div class="row">
+        <label for="excelInput" class="fileLabel">Carregar planilha (.xlsx/.xls)</label>
+        <input id="excelInput" type="file" accept=".xlsx,.xls" />
+      </div>
+
+      <div class="row">
+        <label for="tipo">Tipo de Produto:</label>
+        <select id="tipo">
+          <option value="todos">Todos</option>
+          <option value="mercearia">Mercearia</option>
+          <option value="hortifruti">Hortifruti</option>
+          <option value="frios">Frios</option>
+          <option value="proteina">Proteína</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <label for="aulaInicio">Aula Inicial:</label>
+        <select id="aulaInicio"><option value="todos">Todos</option></select>
+      </div>
+
+      <div class="row">
+        <label for="aulaFim">Aula Final:</label>
+        <select id="aulaFim"><option value="todos">Todos</option></select>
+      </div>
+
+      <div class="row" style="flex:1;">
+        <input id="searchInput" type="text" placeholder="Buscar insumo ou receita..." />
+        <button id="filtrarBtn">Filtrar</button>
+      </div>
+    </div>
+
+    <div id="blocosAulas" class="blocosAulas">
+      <!-- Cards por aula aparecem aqui -->
+    </div>
+
+    <div class="actions">
+      <button id="gerarResumoBtn">Gerar Resumo Consolidado</button>
+      <button id="exportCsvBtn" style="display:none">Exportar Resumo (CSV)</button>
+    </div>
+
+    <footer style="text-align:center; margin-top:18px; color:#666; font-size:13px;">
+     
+    </footer>
+  </div>
+</body>
+</html>
