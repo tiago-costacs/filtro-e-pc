@@ -414,6 +414,3 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target.value) carregarCurso(e.target.value);
   });
 });
-
-
-
