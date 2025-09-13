@@ -1,37 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  
+
   <title>FIPC - Plano de Aulas (Confeiteiro)</title>
 
   <!-- Seu CSS -->
   <link rel="stylesheet" href="styles.css" />
 
   <!-- SheetJS para leitura de Excel no cliente -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
   <!-- Script principal -->
   <script src="script.js" defer></script>
 </head>
+
 <body>
   <div class="container">
-    
-<div class="logo">
-  <img src="filtro.jng2.png" width="300" height="300">
-  
-</div>
-    
+
+    <div class="logo">
+      <img src="filtro.jng2.png" width="300" height="300">
+
+    </div>
 
     <div class="filtros">
       <div class="row">
-        <label for="excelInput" class="fileLabel">Carregar planilha (.xlsx/.xls)</label>
-        <input id="excelInput" type="file" accept=".xlsx,.xls" />
-      </div>
-
-      <div class="row">
-        <label for="tipo">Tipo de Produto:</label>
+        <label for="tipo">Tipo:</label>
         <select id="tipo">
           <option value="todos">Todos</option>
           <option value="mercearia">Mercearia</option>
@@ -40,35 +36,47 @@
           <option value="proteina">Proteína</option>
         </select>
       </div>
-
-      <div class="row">
-        <label for="aulaInicio">Aula Inicial:</label>
-        <select id="aulaInicio"><option value="todos">Todos</option></select>
+      <div style="margin: 10px 0;">
+        <button id="btnSalvarCurso">Salvar Curso</button>
+        <select id="cursosSalvos">
+          <option value="">-- Selecione um curso salvo --</option>
+        </select>
+        <button id="btnExcluirCurso">Excluir Curso</button>
       </div>
 
       <div class="row">
-        <label for="aulaFim">Aula Final:</label>
-        <select id="aulaFim"><option value="todos">Todos</option></select>
+        <label for="dataInicio">Data início:</label>
+        <input type="date" id="dataInicio" />
+
+        <label for="dataFim">Data fim:</label>
+        <input type="date" id="dataFim" />
       </div>
 
-      <div class="row" style="flex:1;">
-        <input id="searchInput" type="text" placeholder="Buscar insumo ou receita..." />
+      <div class="row">
+        <input type="text" id="searchInput" placeholder="Buscar receita ou insumo..." />
+      </div>
+
+      <div class="row">
+        <input type="file" id="excelInput" accept=".xlsx,.xls" />
+      </div>
+
+      <div class="row">
         <button id="filtrarBtn">Filtrar</button>
+        <button id="gerarResumoBtn">Gerar Resumo</button>
+        <button id="exportCsvBtn" style="display:none;">Exportar CSV</button>
       </div>
     </div>
 
-    <div id="blocosAulas" class="blocosAulas">
-      <!-- Cards por aula aparecem aqui -->
-    </div>
+    <div id="blocosAulas" class="blocosAulas"></div>
 
-    <div class="actions">
-      <button id="gerarResumoBtn">Gerar Resumo Consolidado</button>
-      <button id="exportCsvBtn" style="display:none">Exportar Resumo (CSV)</button>
-    </div>
+    <!-- Cards por aula aparecem aqui -->
+  </div>
 
-    <footer style="text-align:center; margin-top:18px; color:#666; font-size:13px;">
-     
-    </footer>
+
+  <footer style="text-align:center; margin-top:18px; color:#666; font-size:13px;">
+
+  </footer>
   </div>
 </body>
+
 </html>
