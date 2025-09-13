@@ -287,3 +287,45 @@ input[type="text"], select, input[type="file"] {
     height: auto;
   }
 }
+/* Ajustes para celular */
+@media (max-width: 600px) {
+  .filtros {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .filtros label {
+    margin-bottom: 4px;
+  }
+
+  input[type="text"],
+  input[type="file"],
+  input[type="date"],
+  select,
+  button {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    border-radius: 10px;
+  }
+
+  button {
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  #excelInput {
+    padding: 10px;
+  }
+
+  /* Para centralizar e alinhar os botões */
+  #btnSalvarCurso,
+  #btnExcluirCurso,
+  #filtrarBtn,
+  #gerarResumoBtn {
+    margin-top: 4px;
+  }
+}
+
