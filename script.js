@@ -16,34 +16,6 @@ async function loadExcelFile(file) {
   });
 }
 
-function exportarExcel(workbook, nomeArquivo) {
-  workbook.xlsx.writeBuffer().then(function(data) {
-    const blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-
-    // Detecta se é mobile
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    if (isMobile && navigator.share) {
-      // MOBILE → usa compartilhamento nativo (abre opção de salvar no Drive, iCloud, Excel, etc.)
-      const file = new File([blob], nomeArquivo, { type: blob.type });
-      navigator.share({
-        files: [file],
-        title: "Plano de Aulas",
-        text: "Aqui está a planilha exportada."
-      }).catch(console.error);
-    } else {
-      // DESKTOP (ou mobile sem suporte ao share) → mantém como já funcionava
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = nomeArquivo;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-  });
-}
 
 
 let ingredientes = []; // dataset carregado da planilha
@@ -443,5 +415,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target.value) carregarCurso(e.target.value);
   });
 });
+
 
 
