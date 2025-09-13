@@ -1,88 +1,52 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<!-- Biblioteca XLSX (funciona em desktop + mobile) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.19.3/xlsx.full.min.js"></script>
-<input type="file" id="inputExcel" accept=".xlsx,.xls" />
-
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plano de Aulas</title>
+  <link rel="stylesheet" href="style.css">
 
-  <title>FIPC - Plano de Aulas (Confeiteiro)</title>
-
-  <!-- Seu CSS -->
-  <link rel="stylesheet" href="styles.css" />
-
-  <!-- SheetJS para leitura de Excel no cliente -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-  <!-- Script principal -->
-  <script src="script.js" defer></script>
+  <!-- Biblioteca XLSX -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.19.3/xlsx.full.min.js"></script>
 </head>
-
 <body>
   <div class="container">
+    <h1>📘 Plano de Aulas</h1>
 
-    <div class="logo">
-      <img src="filtro.jng2.png" width="300" height="300">
+    <label for="tipo">Tipo:</label>
+    <select id="tipo">
+      <option value="Todos">Todos</option>
+      <option value="Nutrição">Nutrição</option>
+      <option value="Confeitaria">Confeitaria</option>
+    </select>
 
-    </div>
+    <button id="salvarCurso">Salvar Curso</button>
+    <button id="excluirCurso">Excluir Curso</button>
 
-    <div class="filtros">
-      <div class="row">
-        <label for="tipo">Tipo:</label>
-        <select id="tipo">
-          <option value="todos">Todos</option>
-          <option value="mercearia">Mercearia</option>
-          <option value="hortifruti">Hortifruti</option>
-          <option value="frios">Frios</option>
-          <option value="proteina">Proteína</option>
-        </select>
-      </div>
-      <div style="margin: 10px 0;">
-        <button id="btnSalvarCurso">Salvar Curso</button>
-        <select id="cursosSalvos">
-          <option value="">-- Selecione um curso salvo --</option>
-        </select>
-        <button id="btnExcluirCurso">Excluir Curso</button>
-      </div>
+    <label>Data início:</label>
+    <input type="date" id="dataInicio">
 
-      <div class="row">
-        <label for="dataInicio">Data início:</label>
-        <input type="date" id="dataInicio" />
+    <label>Data fim:</label>
+    <input type="date" id="dataFim">
 
-        <label for="dataFim">Data fim:</label>
-        <input type="date" id="dataFim" />
-      </div>
+    <input type="text" id="busca" placeholder="Buscar receita ou insumo...">
 
-      <div class="row">
-        <input type="text" id="searchInput" placeholder="Buscar receita ou insumo..." />
-      </div>
+    <!-- Upload Excel -->
+    <input type="file" id="inputExcel" accept=".xlsx,.xls" />
 
-      <div class="row">
-        <input type="file" id="excelInput" accept=".xlsx,.xls" />
-      </div>
+    <button id="filtrar">Filtrar</button>
+    <button id="gerarResumo">Gerar Resumo</button>
 
-      <div class="row">
-        <button id="filtrarBtn">Filtrar</button>
-        <button id="gerarResumoBtn">Gerar Resumo</button>
-        <button id="exportCsvBtn" style="display:none;">Exportar CSV</button>
-      </div>
-    </div>
+    <hr>
 
-    <div id="blocosAulas" class="blocosAulas"></div>
-
-    <!-- Cards por aula aparecem aqui -->
+    <!-- Aqui aparecem as receitas -->
+    <div id="listaReceitas"></div>
   </div>
-<div id="listaReceitas"></div>
 
-
-  <footer style="text-align:center; margin-top:18px; color:#666; font-size:13px;">
-
-  </footer>
-  </div>
+  <script src="script.js"></script>
 </body>
-
 </html>
+
+
 
 
