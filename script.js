@@ -418,22 +418,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // =================== Exportação Excel (Desktop + Mobile) ===================
 async function exportarExcel(workbook, nomeArquivo) {
-  workbook.xlsx.writeBuffer().then(function(data) {
+  try {
+    const data = await workbook.xlsx.writeBuffer();
     const blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    const file = new File([blob], nomeArquivo, { type: blob.type });
 
-    // Detecta se é mobile
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (isMobile && navigator.share) {
-      // MOBILE → usa compartilhamento nativo
-      const file = new File([blob], nomeArquivo, { type: blob.type });
-      navigator.share({
+      // MOBILE (quando suportado) → compartilhamento nativo
+      await navigator.share({
         files: [file],
         title: "Plano de Aulas",
         text: "Aqui está a planilha exportada."
-      }).catch(console.error);
+      });
     } else {
-      // DESKTOP (ou mobile sem suporte ao share) → download direto
+      // DESKTOP (ou fallback no MOBILE) → download direto
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -443,7 +443,11 @@ async function exportarExcel(workbook, nomeArquivo) {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-  });
+  } catch (err) {
+    console.error("Erro ao exportar Excel:", err);
+    alert("Não foi possível exportar a planilha.");
+  }
 }
+
 
 
