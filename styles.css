@@ -240,53 +240,6 @@ input[type="text"], select, input[type="file"] {
 .filtros .row button {
   min-width: 100px;
 }
-/* Ajustes para telas pequenas (celulares) */
-@media (max-width: 600px) {
-  .container {
-    padding: 14px;
-    border-radius: 20px;
-  }
-
-  .filtros {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
-  }
-
-  .filtros .row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    width: 100%;
-  }
-
-  input[type="text"],
-  select,
-  input[type="file"],
-  button {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .aulaCard {
-    padding: 10px;
-  }
-
-  .receitaRow {
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-start;
-  }
-
-  .controls {
-    justify-content: flex-start;
-  }
-
-  .logo img {
-    max-width: 200px;
-    height: auto;
-  }
-}
 /* Ajustes para celular */
 @media (max-width: 600px) {
   .filtros {
@@ -328,4 +281,3 @@ input[type="text"], select, input[type="file"] {
     margin-top: 4px;
   }
 }
-
