@@ -1,83 +1,30 @@
-// Evento para upload Excel
-document.getElementById("inputExcel").addEventListener("change", function(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+ async function loadExcelFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
 
-  const reader = new FileReader();
+        // Pega a primeira aba
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
 
-  reader.onload = function(event) {
-    try {
-      const data = new Uint8Array(event.target.result);
-      const workbook = XLSX.read(data, { type: "array" });
+        // Converte para JSON
+        const json = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
-      // pega a primeira aba da planilha
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-
-      // transforma em JSON (matriz)
-      const json = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-      console.log("Planilha carregada ✅", json);
-
-      // processa os dados
-      processarDados(json);
-    } catch (err) {
-      console.error("Erro ao ler planilha:", err);
-      alert("Não foi possível ler o arquivo. Verifique se está no formato Excel.");
-    }
-  };
-
-  // Compatível desktop + mobile
-  reader.readAsArrayBuffer(file);
-});
-
-// Função para processar dados do Excel
-function processarDados(json) {
-  const container = document.getElementById("listaReceitas");
-  container.innerHTML = "";
-
-  if (json.length <= 1) {
-    container.innerHTML = "<p>Nenhum dado encontrado na planilha.</p>";
-    return;
-  }
-
-  let dataAtual = "";
-  let bloco = null;
-
-  json.forEach((linha, i) => {
-    if (i === 0) return; // cabeçalho
-
-    const [data, uc, aula, receita, insumos, categoria] = linha;
-
-    // novo dia
-    if (data && data !== dataAtual) {
-      dataAtual = data;
-      bloco = document.createElement("div");
-      bloco.classList.add("bloco-dia");
-      bloco.innerHTML = `<h3>Data ${data}</h3>`;
-      container.appendChild(bloco);
-    }
-
-    // receita
-    const receitaDiv = document.createElement("div");
-    receitaDiv.classList.add("receita");
-    receitaDiv.innerHTML = `
-      <strong>${uc || ""} ${aula || ""}: ${receita || ""}</strong><br>
-      <small>${insumos || ""}</small>
-      <div>
-        <span class="tag">${categoria || "GERAL"}</span>
-        <button class="lerMais">Ler mais</button>
-      </div>
-    `;
-
-    if (bloco) {
-      bloco.appendChild(receitaDiv);
-    } else {
-      container.appendChild(receitaDiv);
-    }
+        resolve({ json, workbook });
+      } catch (err) {
+        reject(err);
+      }
+    };
+    reader.onerror = reject;
+    reader.readAsArrayBuffer(file);
   });
 }
 
+let ingredientes = []; // dataset carregado da planilha
+let ultimoResumo = null; // guarda o resumo gerado (para export)
 
 // mapeamento de variantes de unidades -> canonico
 const UNIT_MAP = {
@@ -410,6 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// =================== NOVO CÓDIGO ACRESCENTADO ===================
 
 // Função para salvar curso no localStorage
 function salvarCurso(nome) {
@@ -474,38 +422,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// =================== Exportação Excel (Desktop + Mobile) ===================
-async function exportarExcel(workbook, nomeArquivo) {
-  try {
-    const data = await workbook.xlsx.writeBuffer();
-    const blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-    const file = new File([blob], nomeArquivo, { type: blob.type });
 
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    if (isMobile && navigator.share) {
-      // MOBILE (quando suportado) → compartilhamento nativo
-      await navigator.share({
-        files: [file],
-        title: "Plano de Aulas",
-        text: "Aqui está a planilha exportada."
-      });
-    } else {
-      // DESKTOP (ou fallback no MOBILE) → download direto
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = nomeArquivo;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-  } catch (err) {
-    console.error("Erro ao exportar Excel:", err);
-    alert("Não foi possível exportar a planilha.");
-  }
-}
 
 
 
