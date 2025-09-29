@@ -4,80 +4,106 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-
   <title>FIPC - Plano de Aulas (Confeiteiro)</title>
 
-  <!-- Seu CSS -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- SheetJS para leitura de Excel no cliente -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-  <!-- Script principal -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 
 <body>
-  <div class="container">
+  <div class="page-bg">
+    <div class="card-wrapper">
 
-    <div class="logo">
-      <img src="filtro.jng2.png" width="300" height="300">
+      <!-- logo centralizado (arquivo que você subiu: filtro.jng2.png) -->
+      <div class="logo-wrap">
+        <img src="filtro.jng2.png" alt="Logo Filtro" class="logo-img">
+      </div>
+
+      <div class="card">
+        <header class="card-header">
+
+          <!-- LINHA DE BUSCA -->
+          <div class="search-row">
+            <label class="label-small" for="searchInput">Buscar</label>
+            <input id="searchInput" type="text" placeholder="Buscar receita ou insumo..." />
+            <!-- input de arquivo separado e com id correto -->
+            <input id="excelInput" type="file" accept=".xlsx,.xls" />
+          </div>
+
+          <!-- LINHA DE FILTROS (datas + botão Filtrar) -->
+          <div class="filters-row">
+            <div class="filters-left">
+              <label class="label-small" for="dataInicio">Data início:</label>
+              <input type="date" id="dataInicio" />
+
+              <label class="label-small" for="dataFim">Data fim:</label>
+              <input type="date" id="dataFim" />
+            </div>
+
+            <div class="Filtros">
+              <div class="row">
+                <label for="tipo"> Tipo:</label>
+
+                <select id="tipo" class="select-btn">
+
+                  <option value="todos">Todos</option>
+
+                  <option value="mercearia">Mercearia</option>
+
+                  <option value="frios">Frios</option>
+
+                  <option value="hortifrutis">Hortifrutis</option>
+
+                  <option value="descartavel">Descartavel</option>
+
+                  <option value="bebidas">Bebidas</option>
+
+                  <option value="embalagem">Embalagem</option>
+
+                  <option value="proteina">Proteina</option>
+                </select>
+
+              </div>
+            </div>
+
+
+            <div>
+              <button id="btnSalvarCurso">Salvar Cursos</button>
+              <select id="cursosSalvos">
+
+                <option value="">-- Selecione um curso salvo --</option>
+              </select>
+
+              <button id="btnExcluirCurso"> Excluir Curso</button>
+
+            </div>
+
+            <div class="filters-right">
+              <button id="filtrarBtn" type="button" class="btn btn-primary small">Filtrar</button>
+            </div>
+
+
+        </header>
+
+        <!-- AREA ONDE O JS POPULA OS BLOCOS (deixa vazia) -->
+        <main id="blocosAulas" class="blocosAulas"></main>
+
+        <footer class="card-footer">
+          <div class="acoes-centrais">
+            <button id="gerarResumoBtn" type="button" class="btn btn-primary">Gerar Resumo</button>
+
+            <button id="exportCsvBtn" type="button" class="btn btn-secondary">Exportar CSV</button>
+          </div>
+        </footer>
+      </div>
 
     </div>
-
-    <div class="filtros">
-      <div class="row">
-        <label for="tipo">Tipo:</label>
-        <select id="tipo">
-          <option value="todos">Todos</option>
-          <option value="mercearia">Mercearia</option>
-          <option value="hortifruti">Hortifruti</option>
-          <option value="frios">Frios</option>
-          <option value="proteina">Proteína</option>
-        </select>
-      </div>
-      <div style="margin: 10px 0;">
-        <button id="btnSalvarCurso">Salvar Curso</button>
-        <select id="cursosSalvos">
-          <option value="">-- Selecione um curso salvo --</option>
-        </select>
-        <button id="btnExcluirCurso">Excluir Curso</button>
-      </div>
-
-      <div class="row">
-        <label for="dataInicio">Data início:</label>
-        <input type="date" id="dataInicio" />
-
-        <label for="dataFim">Data fim:</label>
-        <input type="date" id="dataFim" />
-      </div>
-
-      <div class="row">
-        <input type="text" id="searchInput" placeholder="Buscar receita ou insumo..." />
-      </div>
-
-      <div class="row">
-        <input type="file" id="excelInput" accept=".xlsx,.xls" />
-      </div>
-
-      <div class="row">
-        <button id="filtrarBtn">Filtrar</button>
-        <button id="gerarResumoBtn">Gerar Resumo</button>
-        <button id="exportCsvBtn" style="display:none;">Exportar CSV</button>
-      </div>
-    </div>
-
-    <div id="blocosAulas" class="blocosAulas"></div>
-
-    <!-- Cards por aula aparecem aqui -->
-  </div>
-
-
-  <footer style="text-align:center; margin-top:18px; color:#666; font-size:13px;">
-
-  </footer>
   </div>
 </body>
+
+</html>
 
 </html>
 
