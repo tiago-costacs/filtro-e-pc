@@ -4,10 +4,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FIPC - Plano de Aulas </title>
-
+  <title>FIPC - Plano de Aulas</title>
   <link rel="stylesheet" href="styles.css" />
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
   <script src="script.js" defer></script>
 </head>
@@ -16,161 +14,142 @@
   <div class="page-bg">
     <div class="card-wrapper">
 
-      <!-- logo centralizado (arquivo que você subiu: filtro.jng2.png) -->
+      <!-- Logo centralizado -->
       <div class="logo-wrap">
-        <img src="filtro.jng2.png" alt="Logo Filtro" class="logo-img"> 
+        <img src="filtro.jng2.png" alt="Logo Filtro" class="logo-img">
       </div>
 
-           
- <!-- Card Principal -->
-    <div class="main-card">
-      <!-- Header com Busca -->
-      <header class="card-header">
-        <div class="search-row">
-          <label for="searchInput" class="label">Buscar</label>
-          <div class="search-input-wrapper">
-            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.35-4.35"></path>
-            </svg>
-            <input 
-              id="searchInput" 
-              type="text" 
-              placeholder="Buscar receita ou insumo..." 
-              class="search-input"
-            >
-          </div>
-          <label for="excelInput" class="file-upload-label">
-            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="17 8 12 3 7 8"></polyline>
-              <line x1="12" y1="3" x2="12" y2="15"></line>
-            </svg>
-            <span>Carregar Excel</span>
-          </label>
-          <input id="excelInput" type="file" accept=".xlsx,.xls" class="file-input">
-        </div>
+      <!-- Card Principal -->
+      <div class="main-card">
 
-        <!-- Filtros -->
-        <div class="filters-row">
-          <div class="filters-group">
-            <label for="dataInicio" class="label-small">Data início:</label>
-            <div class="date-input-wrapper">
-              <svg class="calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
+        <!-- Header com filtros -->
+        <div class="header-section">
+
+          <!-- Linha 1: Datas e Upload -->
+          <div class="filters-row">
+            <div class="filter-group">
+              <label for="dataInicio" class="filter-label">Data início</label>
               <input type="date" id="dataInicio" class="date-input">
             </div>
 
-            <label for="dataFim" class="label-small">Data fim:</label>
-            <div class="date-input-wrapper">
-              <svg class="calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
+            <div class="filter-group">
+              <label for="dataFim" class="filter-label">Data fim</label>
               <input type="date" id="dataFim" class="date-input">
+            </div>
+
+            <div class="upload-wrapper">
+              <label for="excelInput" class="upload-label">
+                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <span>Carregar Excel</span>
+              </label>
+              <input type="file" id="excelInput" accept=".xlsx,.xls" class="file-input">
             </div>
           </div>
 
-          <div class="filters-group">
-            <label for="tipo" class="label-small">Tipo:</label>
-            <select id="tipo" class="select-input">
-              <option value="todos">Todos</option>
-              <option value="MERCEARIA">MERCEARIA</option>
-              <option value="frios">FRIOS</option>
-              <option value="hortifrutis">Hortifruti</option>
-              <option value="descartavel">Descartável</option>
-              <option value="bebidas">Bebidas</option>
-              <option value="embalagem">Embalagem</option>
-              <option value="proteina">Proteína</option>
-            </select>
-          </div>
+          <!-- Linha 2: Busca e Tipo -->
+          <div class="search-row">
+            <div class="search-wrapper">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input type="text" id="searchInput" placeholder="Buscar receita ou insumo..." class="search-input">
+            </div>
 
-          <div class="filters-group">
-            <button id="btnSalvarCurso" class="btn btn-secondary">Salvar Curso</button>
-            <select id="cursosSalvos" class="select-input">
+            <select id="tipoFiltro" class="tipo-select">
+              <option value="todos">Todos os tipos</option>
+              <option value="MERCEARIA">Mercearia</option>
+              <option value="FRIOS">Frios</option>
+              <option value="HORTIFRUTI">HORTIFRUTI</option>
+              <option value="DESCARTAVEL">Descartável</option>
+              <option value="BEBIDAS">Bebidas</option>
+              <option value="EMBALAGEM">Embalagem</option>
+              <option value="PROTEINA">Proteína</option>
+            </select>
+
+            <button id="filtrarBtn" class="btn-primary">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+              </svg>
+              <span>Filtrar</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Gestão de Cursos -->
+        <div class="cursos-section">
+          <div class="cursos-wrapper">
+            <span class="cursos-label">Cursos:</span>
+
+            <button id="btnSalvarCurso" class="btn-secondary">
+              <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
+              <span>Salvar</span>
+            </button>
+
+            <select id="cursosSalvos" class="curso-select">
               <option value="">Selecione um curso</option>
             </select>
-            <button id="btnExcluirCurso" class="btn btn-destructive">Excluir</button>
 
+            <button id="btnExcluirCurso" class="btn-delete">
+              <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>Excluir</span>
+            </button>
           </div>
-
-          <button id="filtrarBtn" class="btn btn-gradient">
-            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-            </svg>
-            Filtrar
-          </button>
         </div>
-      </header>
 
-      <!-- Conteúdo das Aulas -->
-      <main id="blocosAulas" class="aulas-container">
-        <div class="empty-state">
-          <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10 9 9 9 8 9"></polyline>
-          </svg>
-          <p class="empty-text">Carregue um arquivo Excel para começar</p>
-        </div>
-      </main>
+        <!-- Conteúdo Principal -->
+        <main id="blocosAulas" class="aulas-container">
+          <div class="empty-state">
+            <div id="emptyState">
+              <div class="empty-icon-wrapper">
+                <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+              </div>
+              <p class="empty-text">Carregue um arquivo Excel para começar</p>
+              <p class="empty-subtext">Use o botão "Carregar Excel" acima</p>
+            </div>
+          </div>
+        </main>
 
-      <!-- Footer com Ações -->
-      <footer class="card-footer">
-        <button id="gerarResumoBtn" class="btn btn-gradient btn-lg">
-          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-          </svg>
-          Gerar Resumo
-        </button>
-        <button id="exportCsvBtn" class="btn btn-secondary btn-lg">
-          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          Exportar CSV
-        </button>
-      </footer>
-    </div>
-  </div>
+        <!-- Footer com Ações -->
+        <div class="footer-section">
+          <div class="footer-wrapper">
+            <button id="gerarResumoBtn" class="btn-primary btn-lg">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <span>Gerar Resumo</span>
+            </button>
 
-  <!-- Modal de Resumo -->
-  <div id="resumoModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Resumo de Insumos</h2>
-        <button class="modal-close">&times;</button>
-      </div>
-      <div id="resumoBody" class="modal-body">
-        <!-- Conteúdo dinâmico -->
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" onclick="fecharResumo()">Fechar</button>
-        <button class="btn btn-gradient" onclick="exportarCSV()">
-          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          Exportar CSV
-        </button>
-      </div>
-    </div>
-  </div>
+            <button id="exportCsvBtn" class="btn-outline btn-lg" style="display:none;">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Exportar CSV</span>
+            </button>
 
-  <script src="script-standalone.js"></script>
+
+
 </body>
+
 </html>
+
 
 
 
