@@ -254,7 +254,7 @@ function renderCards(filtered) {
       main.appendChild(nome);
       main.appendChild(preview);
 
-      const controls = document.createElement('div'); // Botão de “ler mais”
+          const controls = document.createElement('div'); // Botão de “ler mais”
       controls.className = 'controls';
 
       const lerMaisBtn = document.createElement('button'); // Cria botão de expandir
@@ -292,28 +292,42 @@ function renderCards(filtered) {
     container.appendChild(aulaCard);
   });
 }
-
 // Aplica os filtros de tipo, data e busca
 function applyFilters() {
-  const tipoSelect = document.getElementById('tipo');
+  const tipoSelect = document.getElementById('tipoFiltro');
+
   const tipo = tipoSelect ? tipoSelect.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() : 'todos';
   const buscar = document.getElementById('searchInput').value.trim().toLowerCase();
   const di = document.getElementById('dataInicio').value;
   const df = document.getElementById('dataFim').value;
 
-  // Converte datas do filtro em objetos Date válidos
   const start = di ? new Date(di) : new Date(-8640000000000000);
   const end = df ? new Date(df) : new Date(8640000000000000);
 
-  // Aplica todos os filtros sobre a lista de ingredientes
   return ingredientes.filter(i => {
     const tipoNormalizado = (i.tipo || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-    const condTipo = (tipo === 'todos') || tipoNormalizado === tipo;
-    const condBusca = !buscar || i.insumo.toLowerCase().includes(buscar) || i.receita.toLowerCase().includes(buscar);
+
+    // 🔥 Agora o filtro aceita correspondência parcial (HORTIFRUTI ou HORTIFRUTIS)
+    const condTipo = (tipo === 'todos') || tipoNormalizado.includes(tipo);
+
+    const condBusca = !buscar ||
+      i.insumo.toLowerCase().includes(buscar) ||
+      i.receita.toLowerCase().includes(buscar);
+
     const condData = i.data ? (new Date(i.data) >= start && new Date(i.data) <= end) : true;
+
     return condTipo && condBusca && condData;
   });
 }
+// Atualiza os cards automaticamente quando algum filtro muda
+function atualizarFiltrosAuto() {
+  const filtrados = applyFilters();
+  renderCards(filtrados);
+  document.querySelectorAll('.resumo').forEach(e=>e.remove());
+  const exportBtn = document.getElementById('exportCsvBtn');
+  if (exportBtn) exportBtn.style.display = 'none';
+}
+
 
 // Consolida ingredientes iguais somando quantidades e mantendo códigos
 function consolidateForResumo(items) {
@@ -347,12 +361,12 @@ function consolidateForResumo(items) {
   return lista;
 }
 
-// Mostra o resumo consolidado em forma de tabela
-function renderResumo(filtrados) {
+function renderResumoDetalhado(filtrados) {
+  // Consolida os dados antes de gerar o resumo
   const consolidado = consolidateForResumo(filtrados);
-  ultimoResumo = consolidado; // Guarda o último resumo gerado
+  ultimoResumo = consolidado;
 
-  document.querySelectorAll('.resumo').forEach(e => e.remove()); // Remove resumos anteriores
+  document.querySelectorAll('.resumo').forEach(e => e.remove());
 
   const resumoDiv = document.createElement('div');
   resumoDiv.className = 'resumo';
@@ -369,12 +383,11 @@ function renderResumo(filtrados) {
 
   const tbody = document.createElement('tbody');
 
-  // Cria linhas da tabela
   consolidado.forEach(item => {
     const tr = document.createElement('tr');
-    const codigo = item.codigo || "";
-    tr.innerHTML = `<td>${parseFloat(item.quantidade).toFixed(3)}</td><td>${item.unidade}</td><td>${codigo}</td><td>${item.especificacao}</td>`;
-
+    // Formata com 3 casas decimais
+    const qt = parseFloat(item.quantidade).toFixed(3);
+    tr.innerHTML = `<td>${qt}</td><td>${item.unidade}</td><td>${item.codigo || ''}</td><td>${item.especificacao}</td>`;
     tbody.appendChild(tr);
   });
 
@@ -382,8 +395,12 @@ function renderResumo(filtrados) {
   resumoDiv.appendChild(table);
 
   document.getElementById('blocosAulas').appendChild(resumoDiv);
-  document.getElementById('exportCsvBtn').style.display = 'inline-block'; // Mostra botão de exportar
+
+  const exportBtn = document.getElementById('exportCsvBtn');
+  if (exportBtn) exportBtn.style.display = 'inline-block';
 }
+
+
 
 // Exporta o resumo consolidado para um arquivo CSV formatado corretamente
 function exportResumoToCSV() {
@@ -392,11 +409,11 @@ function exportResumoToCSV() {
     return;
   }
 
-  const rows = [['Quantidade', 'Unidade', 'Código MXM', 'Especificação']]; // Cabeçalho
+  const rows = [['Quantidade','Unidade', 'Código MXM', 'Especificação']]; // Cabeçalho
 
   // Adiciona as linhas do resumo
   ultimoResumo.forEach(r => {
-    rows.push([r.quantidade, r.unidade, r.codigo || '', r.especificacao]);
+rows.push([parseFloat(r.quantidade).toFixed(3), r.unidade, r.codigo, r.especificacao]);
   });
 
   // Cria o CSV no formato brasileiro com ponto e vírgula e BOM UTF-8
@@ -416,25 +433,29 @@ function exportResumoToCSV() {
 
 // Quando a página termina de carregar, define todos os eventos
 document.addEventListener('DOMContentLoaded', () => {
-
-  // Botão de aplicar filtros
+  // Botão de aplicar filtros manual (ainda funciona)
   const filtrarBtn = document.getElementById('filtrarBtn');
   if (filtrarBtn) {
-    filtrarBtn.addEventListener('click', () => {
-      const filtrados = applyFilters();
-      renderCards(filtrados);
-      document.querySelectorAll('.resumo').forEach(e=>e.remove());
-      const exportBtn = document.getElementById('exportCsvBtn');
-      if (exportBtn) exportBtn.style.display = 'none';
-    });
+    filtrarBtn.addEventListener('click', atualizarFiltrosAuto);
   }
+
+  // 🔥 Atualização automática:
+  const tipoSelect = document.getElementById('tipoFiltro');
+  const dataInicio = document.getElementById('dataInicio');
+  const dataFim = document.getElementById('dataFim');
+  const searchInput = document.getElementById('searchInput');
+
+  if (tipoSelect) tipoSelect.addEventListener('change', atualizarFiltrosAuto);
+  if (dataInicio) dataInicio.addEventListener('change', atualizarFiltrosAuto);
+  if (dataFim) dataFim.addEventListener('change', atualizarFiltrosAuto);
+  if (searchInput) searchInput.addEventListener('input', atualizarFiltrosAuto);
 
   // Botão de gerar o resumo consolidado
   const gerarResumoBtn = document.getElementById('gerarResumoBtn');
   if (gerarResumoBtn) {
     gerarResumoBtn.addEventListener('click', () => {
       const filtrados = applyFilters();
-      renderResumo(filtrados);
+      renderResumoDetalhado(filtrados);
       const el = document.querySelector('.resumo');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     });
@@ -444,8 +465,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const exportCsvBtn = document.getElementById('exportCsvBtn');
   if (exportCsvBtn) {
     exportCsvBtn.addEventListener('click', exportResumoToCSV);
-    exportCsvBtn.style.display = 'none'; // Oculto até gerar o resumo
+    exportCsvBtn.style.display = 'none';
   }
+
+
 
   // Input de upload do arquivo Excel
   const excelInput = document.getElementById('excelInput');
@@ -484,12 +507,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Botão de excluir curso salvo
   const btnExcluir = document.getElementById("btnExcluirCurso");
   if (btnExcluir) btnExcluir.addEventListener("click", () => {
-    const select = document.getElementById("cursosSalvos");
+    const select = document.getElementById("cursos Salvos");
     if (select && select.value) excluirCurso(select.value);
   });
 
   // Quando o usuário seleciona um curso salvo
-  const sel = document.getElementById("cursosSalvos");
+  const sel = document.getElementById("cursos Salvos");
   if (sel) sel.addEventListener("change", (e) => {
     if (e.target.value) carregarCurso(e.target.value);
   });
@@ -522,7 +545,8 @@ function carregarCurso(nome) {
 function excluirCurso(nome) {
   localStorage.removeItem("curso_" + nome);
   carregarListaCursos();
-  alert("Curso excluído com sucesso!");
+  alert("deseja excluir esse curso?");
+  
 }
 
 // Atualiza a lista de cursos salvos no menu suspenso
@@ -540,8 +564,3 @@ function carregarListaCursos() {
     }
   }
 }
-
-
-
-
-
