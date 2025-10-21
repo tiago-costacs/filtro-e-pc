@@ -307,7 +307,7 @@ function applyFilters() {
   return ingredientes.filter(i => {
     const tipoNormalizado = (i.tipo || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
-    // 🔥 Agora o filtro aceita correspondência parcial (HORTIFRUTI ou HORTIFRUTIS)
+    //correspondência parcial (HORTIFRUTI ou HORTIFRUTIS)
     const condTipo = (tipo === 'todos') || tipoNormalizado.includes(tipo);
 
     const condBusca = !buscar ||
@@ -505,14 +505,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Botão de excluir curso salvo
-  const btnExcluir = document.getElementById("btnExcluirCurso");
-  if (btnExcluir) btnExcluir.addEventListener("click", () => {
-    const select = document.getElementById("cursos Salvos");
-    if (select && select.value) excluirCurso(select.value);
-  });
+ const btnExcluir = document.getElementById("btnExcluirCurso");
+if (btnExcluir) btnExcluir.addEventListener("click", () => {
+  const select = document.getElementById("cursosSalvos");
+  if (select && select.value) excluirCurso(select.value);
+});
 
   // Quando o usuário seleciona um curso salvo
-  const sel = document.getElementById("cursos Salvos");
+  const sel = document.getElementById("cursosSalvos");
   if (sel) sel.addEventListener("change", (e) => {
     if (e.target.value) carregarCurso(e.target.value);
   });
@@ -543,11 +543,13 @@ function carregarCurso(nome) {
 
 // Exclui um curso salvo
 function excluirCurso(nome) {
-  localStorage.removeItem("curso_" + nome);
-  carregarListaCursos();
-  alert("deseja excluir esse curso?");
-  
+  if (confirm(`Deseja realmente excluir o curso "${nome}"?`)) {
+    localStorage.removeItem("curso_" + nome);
+    carregarListaCursos();
+    alert("Curso excluído com sucesso!");
+  }
 }
+
 
 // Atualiza a lista de cursos salvos no menu suspenso
 function carregarListaCursos() {
@@ -564,3 +566,4 @@ function carregarListaCursos() {
     }
   }
 }
+
